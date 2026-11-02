@@ -33,7 +33,6 @@
       background: transparent;
       -webkit-tap-highlight-color: transparent;
     }
-    /* 追従：LP内の同一ボタン画像を追加表示 */
     .cta-follow {
       position: fixed;
       left: 0;
@@ -59,6 +58,8 @@
       line-height: 0;
       text-decoration: none;
       -webkit-tap-highlight-color: transparent;
+      border-radius: 9999px;
+      overflow: hidden;
       filter: drop-shadow(0 8px 16px rgba(40, 10, 30, 0.4));
       animation: follow-bob 2.2s ease-in-out infinite;
     }
@@ -67,6 +68,7 @@
       height: auto;
       display: block;
       pointer-events: none;
+      border-radius: 9999px;
     }
     @keyframes follow-bob {
       0%, 100% { transform: translateY(0); }
@@ -91,14 +93,13 @@
 
   <div class="cta-follow" id="followWrap">
     <a class="line-link" id="followCta" href="#" rel="noopener noreferrer">
-      <img src="assets/cta-button-v3.png" width="855" height="143" alt="公式LINEで無料セミナーを受け取る" />
+      <img src="assets/cta-button-v5.png" width="855" height="142" alt="公式LINEで無料セミナーを受け取る" />
     </a>
   </div>
 
   <script>
     (function () {
-      var LINE_URL = ""; // 公式LINEのURLが来たらここに入れる
-
+      var LINE_URL = "";
       document.querySelectorAll(".line-link").forEach(function (a) {
         if (LINE_URL) {
           a.href = LINE_URL;
@@ -117,7 +118,6 @@
       function update() {
         var r0 = hot0.getBoundingClientRect();
         var followH = wrap.offsetHeight || 80;
-        // 最初のボタンが画面下端付近まで来たら追従開始
         var reached = r0.top <= (window.innerHeight - followH - 8);
         var hideAtEnd = false;
         if (hot2) {
@@ -129,9 +129,7 @@
 
       window.addEventListener("scroll", update, { passive: true });
       window.addEventListener("resize", update);
-      if (document.readyState === "complete") update();
-      else window.addEventListener("load", update);
-      // 画像読み込み後にも再計算
+      window.addEventListener("load", update);
       var lp = document.getElementById("lp");
       if (lp) {
         if (lp.complete) update();
