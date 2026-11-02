@@ -23,50 +23,37 @@
       width: 100%;
       height: auto;
     }
-    /* 画像の上に載せるボタン（背景と切り分け） */
-    .cta {
+    /* 元画像のボタンはそのまま。クリック用の透明ヒットだけ重ねる */
+    .hotspot {
       position: absolute;
       z-index: 5;
       display: block;
-      line-height: 0;
-      text-decoration: none;
+      text-indent: -9999px;
+      overflow: hidden;
+      background: transparent;
       -webkit-tap-highlight-color: transparent;
-      transform-origin: center center;
-      animation: cta-float 2.4s ease-in-out infinite;
     }
-    .cta img {
-      width: 100%;
-      height: auto;
-      display: block;
-      filter: drop-shadow(0 6px 14px rgba(80, 20, 60, 0.32));
-      pointer-events: none;
-    }
-    .cta.is-ghost {
-      opacity: 0;
-      pointer-events: none;
-      animation: none;
-    }
-    @keyframes cta-float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
-
-    /* 追従（画面下端に張り付き） */
-    .cta-fixed {
+    /* 追従ボタン（FVの差し替えではない。追加） */
+    .cta-follow {
       position: fixed;
       left: 50%;
       bottom: calc(10px + env(safe-area-inset-bottom, 0px));
-      transform: translateX(-50%);
+      transform: translateX(-50%) translateY(120%);
       z-index: 100;
       width: min(88vw, 780px);
-      display: none;
       line-height: 0;
       text-decoration: none;
-      animation: cta-float 2.4s ease-in-out infinite;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.28s ease, opacity 0.28s ease;
       filter: drop-shadow(0 8px 18px rgba(40, 10, 30, 0.35));
     }
-    .cta-fixed.is-on { display: block; }
-    .cta-fixed img {
+    .cta-follow.is-on {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .cta-follow img {
       width: 100%;
       height: auto;
       display: block;
@@ -76,31 +63,22 @@
 </head>
 <body>
   <main class="stage" id="stage">
-    <img class="lp" src="assets/lp-full.jpg" width="1024" height="15253" alt="オーラ引き寄せ術 完全攻略セミナー" />
+    <img class="lp" id="lp" src="assets/lp-full.jpg" width="1024" height="15253" alt="オーラ引き寄せ術 完全攻略セミナー" />
 
-    <!-- 1つ目：ここから追従開始 -->
-    <a class="cta line-link" id="cta0"
-       style="top:8.4574%; left:11.7188%; width:76.5625%;"
-       href="#" rel="noopener noreferrer">
-      <img src="assets/cta-button.png" width="784" height="143" alt="公式LINEで無料セミナーを受け取る" />
-    </a>
-
-    <!-- 2つ目・3つ目：画像内の位置に固定表示（クリック可） -->
-    <a class="cta line-link" id="cta1"
-       style="top:88.3695%; left:9.9609%; width:79.8828%;"
-       href="#" rel="noopener noreferrer">
-      <img src="assets/cta-button.png" width="784" height="143" alt="公式LINEで無料セミナーを受け取る" />
-    </a>
-    <a class="cta line-link" id="cta2"
-       style="top:98.6626%; left:9.9609%; width:79.8828%;"
-       href="#" rel="noopener noreferrer">
-      <img src="assets/cta-button.png" width="784" height="143" alt="公式LINEで無料セミナーを受け取る" />
-    </a>
+    <a class="hotspot line-link" id="hot0" href="#"
+       style="top:8.4574%;left:12.6953%;width:74.6094%;height:0.9375%;"
+       aria-label="公式LINEで無料セミナーを受け取る">公式LINE</a>
+    <a class="hotspot line-link" id="hot1" href="#"
+       style="top:88.3695%;left:9.9609%;width:79.8828%;height:0.4655%;"
+       aria-label="公式LINEで無料セミナーを受け取る">公式LINE</a>
+    <a class="hotspot line-link" id="hot2" href="#"
+       style="top:98.6626%;left:9.9609%;width:79.8828%;height:0.4786%;"
+       aria-label="公式LINEで無料セミナーを受け取る">公式LINE</a>
   </main>
 
-  <!-- 追従用（1つ目が下端に来たら表示） -->
-  <a class="cta-fixed line-link" id="fixedCta" href="#" rel="noopener noreferrer">
-    <img src="assets/cta-button.png" width="784" height="143" alt="公式LINEで無料セミナーを受け取る" />
+  <!-- 追加の追従ボタン（元のFVボタンは消さない） -->
+  <a class="cta-follow line-link" id="followCta" href="#" rel="noopener noreferrer">
+    <img src="assets/cta-button.png" width="760" height="139" alt="公式LINEで無料セミナーを受け取る" />
   </a>
 
   <script>
@@ -117,23 +95,23 @@
         }
       });
 
-      var cta0 = document.getElementById("cta0");
-      var cta2 = document.getElementById("cta2");
-      var fixed = document.getElementById("fixedCta");
-      if (!cta0 || !fixed) return;
+      var hot0 = document.getElementById("hot0");
+      var hot2 = document.getElementById("hot2");
+      var follow = document.getElementById("followCta");
+      if (!hot0 || !follow) return;
 
       function update() {
-        var r0 = cta0.getBoundingClientRect();
-        var stickLine = window.innerHeight - r0.height - 10;
+        var r0 = hot0.getBoundingClientRect();
+        var followH = follow.offsetHeight || 70;
+        var stickLine = window.innerHeight - followH - 10;
         var lastVisible = false;
-        if (cta2) {
-          var r2 = cta2.getBoundingClientRect();
-          lastVisible = r2.top < window.innerHeight && r2.bottom > 0 && r2.top < window.innerHeight * 0.85;
+        if (hot2) {
+          var r2 = hot2.getBoundingClientRect();
+          lastVisible = r2.top < window.innerHeight * 0.9 && r2.bottom > 0;
         }
-        // B: 画像内の1つ目ボタン位置が下端ラインに達したら、下端へ張り付いて追従
-        var shouldStick = r0.top <= stickLine && !lastVisible;
-        fixed.classList.toggle("is-on", shouldStick);
-        cta0.classList.toggle("is-ghost", shouldStick);
+        // 画像内の最初のボタン位置まで来たら、追加の追従ボタンを下端に出す
+        var shouldShow = r0.top <= stickLine && !lastVisible;
+        follow.classList.toggle("is-on", shouldShow);
       }
 
       update();
