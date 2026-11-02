@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>オーラ引き寄せ術 完全攻略セミナー｜ニッシー</title>
+  <meta name="description" content="オーラ引き寄せ術 完全攻略セミナー。公式LINEで無料公開中。" />
+  <style>
+    :root {
+      --page-max: 1024px;
+      --cta-side: 5.5%;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: #f3e9f2;
+      color: #222;
+      -webkit-text-size-adjust: 100%;
+    }
+    .page {
+      width: 100%;
+      max-width: var(--page-max);
+      margin: 0 auto;
+      position: relative;
+    }
+    .seg {
+      display: block;
+      width: 100%;
+      height: auto;
+      vertical-align: top;
+    }
+    .cta-slot {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 8px var(--cta-side);
+    }
+    .cta-slot a {
+      display: block;
+      width: 100%;
+      max-width: 780px;
+      line-height: 0;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .cta-slot img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 6px 14px rgba(80, 20, 60, 0.28));
+    }
+    .follow-zone { position: relative; }
+    .cta-sticky {
+      position: sticky;
+      bottom: 0;
+      z-index: 40;
+      padding-top: 18px;
+      padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+      background: linear-gradient(
+        to top,
+        rgba(243, 233, 242, 0.97) 42%,
+        rgba(243, 233, 242, 0.72) 72%,
+        rgba(243, 233, 242, 0)
+      );
+    }
+    .cta-sticky.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .cta-sticky:not(.is-hidden) {
+      opacity: 1;
+      transition: opacity 0.2s ease;
+    }
+    .cta-inline-a { background: #ecd8f1; }
+    .cta-inline-b { background: #f6e6ef; }
+    .cta-inline-b.last { padding-bottom: 18px; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <img class="seg" src="assets/seg-00.jpg" width="1024" height="1290" alt="オーラ引き寄せ術 完全攻略セミナー" />
+
+    <div class="follow-zone">
+      <div class="cta-slot cta-sticky" id="stickyCta">
+        <a class="line-link" href="#" rel="noopener noreferrer">
+          <img src="assets/cta-button.png" width="784" height="143" alt="公式LINEで無料セミナーを受け取る" />
+        </a>
+      </div>
+
+      <img class="seg" src="assets/seg-01.jpg" width="1024" height="12046" alt="" />
+
+      <div class="cta-slot cta-inline-a">
+        <a class="line-link" href="#" rel="noopener noreferrer">
+          <img src="assets/cta-button.png" width="784" height="143" alt="公式LINEで無料セミナーを受け取る" />
+        </a>
+      </div>
+
+      <img class="seg" src="assets/seg-02.jpg" width="1024" height="1499" alt="" />
+
+      <div class="cta-slot cta-inline-b last" id="lastCta">
+        <a class="line-link" href="#" rel="noopener noreferrer">
+          <img src="assets/cta-button.png" width="784" height="143" alt="公式LINEで無料セミナーを受け取る" />
+        </a>
+      </div>
+
+      <img class="seg" src="assets/seg-03.jpg" width="1024" height="131" alt="" />
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var LINE_URL = ""; // 公式LINEのURLが来たらここに入れる
+
+      var links = document.querySelectorAll(".line-link");
+      links.forEach(function (a) {
+        if (LINE_URL) {
+          a.href = LINE_URL;
+          a.target = "_blank";
+        } else {
+          a.href = "#";
+          a.addEventListener("click", function (e) {
+            e.preventDefault();
+          });
+        }
+      });
+
+      var sticky = document.getElementById("stickyCta");
+      var last = document.getElementById("lastCta");
+      if (!sticky || !last || !("IntersectionObserver" in window)) return;
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            sticky.classList.toggle("is-hidden", entry.isIntersecting);
+          });
+        },
+        { root: null, threshold: 0.35 }
+      );
+      io.observe(last);
+    })();
+  </script>
+</body>
+</html>
