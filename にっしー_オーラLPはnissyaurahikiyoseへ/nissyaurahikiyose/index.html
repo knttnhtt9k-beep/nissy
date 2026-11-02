@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>オーラ引き寄せ術 完全攻略セミナー｜ニッシー</title>
+  <meta name="description" content="オーラ引き寄せ術 完全攻略セミナー。公式LINEで無料公開中。" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: #f3e9f2;
+      -webkit-text-size-adjust: 100%;
+    }
+    .stage {
+      position: relative;
+      width: 100%;
+      max-width: 1024px;
+      margin: 0 auto;
+      line-height: 0;
+    }
+    .lp {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .hotspot {
+      position: absolute;
+      z-index: 5;
+      display: block;
+      text-indent: -9999px;
+      overflow: hidden;
+      background: transparent;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* 追従：LP内の同一ボタン画像を追加表示 */
+    .cta-follow {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      padding: 0 4vw;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(120%);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .cta-follow.is-on {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .cta-follow a {
+      display: block;
+      width: min(92vw, 855px);
+      line-height: 0;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      filter: drop-shadow(0 8px 16px rgba(40, 10, 30, 0.4));
+      animation: follow-bob 2.2s ease-in-out infinite;
+    }
+    .cta-follow img {
+      width: 100%;
+      height: auto;
+      display: block;
+      pointer-events: none;
+    }
+    @keyframes follow-bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage" id="stage">
+    <img class="lp" id="lp" src="assets/lp-full.jpg" width="1024" height="15253" alt="オーラ引き寄せ術 完全攻略セミナー" />
+
+    <a class="hotspot line-link" id="hot0" href="#"
+       style="top:8.4574%;left:12.6953%;width:74.6094%;height:0.9375%;"
+       aria-label="公式LINEで無料セミナーを受け取る">公式LINE</a>
+    <a class="hotspot line-link" id="hot1" href="#"
+       style="top:88.3695%;left:9.9609%;width:79.8828%;height:0.4655%;"
+       aria-label="公式LINEで無料セミナーを受け取る">公式LINE</a>
+    <a class="hotspot line-link" id="hot2" href="#"
+       style="top:98.6626%;left:9.9609%;width:79.8828%;height:0.4786%;"
+       aria-label="公式LINEで無料セミナーを受け取る">公式LINE</a>
+  </main>
+
+  <div class="cta-follow" id="followWrap">
+    <a class="line-link" id="followCta" href="#" rel="noopener noreferrer">
+      <img src="assets/cta-button.png" width="855" height="143" alt="公式LINEで無料セミナーを受け取る" />
+    </a>
+  </div>
+
+  <script>
+    (function () {
+      var LINE_URL = ""; // 公式LINEのURLが来たらここに入れる
+
+      document.querySelectorAll(".line-link").forEach(function (a) {
+        if (LINE_URL) {
+          a.href = LINE_URL;
+          a.target = "_blank";
+        } else {
+          a.href = "#";
+          a.addEventListener("click", function (e) { e.preventDefault(); });
+        }
+      });
+
+      var hot0 = document.getElementById("hot0");
+      var hot2 = document.getElementById("hot2");
+      var wrap = document.getElementById("followWrap");
+      if (!hot0 || !wrap) return;
+
+      function update() {
+        var r0 = hot0.getBoundingClientRect();
+        var followH = wrap.offsetHeight || 80;
+        // 最初のボタンが画面下端付近まで来たら追従開始
+        var reached = r0.top <= (window.innerHeight - followH - 8);
+        var hideAtEnd = false;
+        if (hot2) {
+          var r2 = hot2.getBoundingClientRect();
+          hideAtEnd = r2.top < window.innerHeight - followH - 24 && r2.bottom > 0;
+        }
+        wrap.classList.toggle("is-on", reached && !hideAtEnd);
+      }
+
+      window.addEventListener("scroll", update, { passive: true });
+      window.addEventListener("resize", update);
+      if (document.readyState === "complete") update();
+      else window.addEventListener("load", update);
+      // 画像読み込み後にも再計算
+      var lp = document.getElementById("lp");
+      if (lp) {
+        if (lp.complete) update();
+        else lp.addEventListener("load", update);
+      }
+      setTimeout(update, 100);
+      setTimeout(update, 500);
+    })();
+  </script>
+</body>
+</html>
