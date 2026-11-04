@@ -11,9 +11,28 @@
     .stage { position: relative; width: 100%; max-width: 1024px; margin: 0 auto; line-height: 0; }
     .lp { display: block; width: 100%; height: auto; }
     .hotspot {
-      position: absolute; z-index: 5; display: block;
-      text-indent: -9999px; overflow: hidden; background: transparent;
+      position: absolute; z-index: 5;
+      display: flex; align-items: center; justify-content: center;
+      overflow: visible; background: transparent;
+      text-decoration: none; cursor: pointer;
       -webkit-tap-highlight-color: transparent;
+    }
+    .hotspot img {
+      width: 100%; height: auto; display: block;
+      border-radius: 9999px; pointer-events: none;
+      filter: drop-shadow(0 8px 16px rgba(40,10,30,.38));
+      animation: cta-move 1.6s ease-in-out infinite;
+      transform-origin: center center;
+    }
+    .hotspot:active img {
+      animation: none;
+      transform: scale(0.97);
+      filter: drop-shadow(0 4px 10px rgba(40,10,30,.3));
+    }
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
     }
     .cta-follow {
       position: fixed; left: 0; right: 0;
@@ -28,11 +47,16 @@
     }
     .cta-follow a {
       display: block; width: min(92vw, 879px); line-height: 0;
-      text-decoration: none; border-radius: 9999px; overflow: hidden;
+      text-decoration: none; border-radius: 9999px; overflow: visible;
+      cursor: pointer;
       -webkit-tap-highlight-color: transparent;
       filter: drop-shadow(0 10px 18px rgba(40,10,30,.42));
       animation: cta-move 1.6s ease-in-out infinite;
       transform-origin: center center;
+    }
+    .cta-follow a:active {
+      animation: none;
+      transform: scale(0.97);
     }
     .cta-follow img {
       width: 100%; height: auto; display: block; border-radius: 9999px;
@@ -69,9 +93,18 @@
 <body>
   <main class="stage">
     <img class="lp" id="lp" src="assets/lp-full.jpg" width="1024" height="15253" alt="オーラ引き寄せ術 完全攻略セミナー" />
-    <a class="hotspot line-link" id="hot0" href="#" style="top:8.3918%;left:10.0586%;width:79.6875%;height:1.0818%;" aria-label="公式LINEで無料セミナーを受け取る">LINE</a>
-    <a class="hotspot line-link" id="hot1" href="#" style="top:88.3761%;left:10.0586%;width:79.6875%;height:1.0818%;" aria-label="公式LINEで無料セミナーを受け取る">LINE</a>
-    <a class="hotspot line-link" id="hot2" href="#" style="top:98.5970%;left:10.0586%;width:79.6875%;height:1.0818%;" aria-label="公式LINEで無料セミナーを受け取る">LINE</a>
+    <a class="hotspot line-link" id="hot0" href="#" style="top:8.3918%;left:10.0586%;width:79.6875%;height:1.0818%;">
+      <img src="assets/cta-follow.png" width="879" height="160" alt="" />
+      <span class="visually-hidden">公式LINEで無料セミナーを受け取る</span>
+    </a>
+    <a class="hotspot line-link" id="hot1" href="#" style="top:88.3761%;left:10.0586%;width:79.6875%;height:1.0818%;">
+      <img src="assets/cta-follow.png" width="879" height="160" alt="" />
+      <span class="visually-hidden">公式LINEで無料セミナーを受け取る</span>
+    </a>
+    <a class="hotspot line-link" id="hot2" href="#" style="top:98.5970%;left:10.0586%;width:79.6875%;height:1.0818%;">
+      <img src="assets/cta-follow.png" width="879" height="160" alt="" />
+      <span class="visually-hidden">公式LINEで無料セミナーを受け取る</span>
+    </a>
   </main>
   <div class="cta-follow" id="followWrap">
     <a class="line-link" href="#" rel="noopener noreferrer">
