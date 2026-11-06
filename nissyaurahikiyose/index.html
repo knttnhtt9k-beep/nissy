@@ -148,7 +148,7 @@
         if(LINE_URL){a.href=LINE_URL;a.target="_blank";a.rel="noopener noreferrer";}
         else{a.href="#";a.addEventListener("click",function(e){e.preventDefault();});}
       });
-      // Measures CTA clicks as CompleteRegistration, not confirmed LINE friend additions.
+      // Track CTA clicks separately; registration completion is measured by L Message.
       document.querySelectorAll(".line-link").forEach(function(a){
         var lastTrackedAt = -Infinity;
         a.addEventListener("click", function(e){
@@ -157,9 +157,8 @@
           if(now - lastTrackedAt < 1000) return;
           lastTrackedAt = now;
           if(typeof window.fbq === "function"){
-            window.fbq("track", "CompleteRegistration", {
+            window.fbq("trackCustom", "LineCTAClick", {
               content_name: "オーラ引き寄せ術完全攻略セミナー",
-              registration_method: "line_cta_click",
               button_location: a.id || "sticky",
               destination_is_placeholder: LINE_URL === "https://example.com/line-registration"
             });
