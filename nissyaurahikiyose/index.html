@@ -21,7 +21,7 @@
       width: 100%; height: auto; display: block;
       border-radius: 9999px; pointer-events: none;
       filter: drop-shadow(0 8px 16px rgba(40,10,30,.38));
-      animation: cta-move 1.6s ease-in-out infinite;
+      animation: cta-inline 2.8s ease-in-out infinite;
       transform-origin: center center;
     }
     .hotspot:active img {
@@ -62,6 +62,18 @@
       width: 100%; height: auto; display: block; border-radius: 9999px;
       pointer-events: none;
     }
+    .hotspot:focus-visible, .cta-follow a:focus-visible {
+      outline: 3px solid #b47a24; outline-offset: 5px;
+    }
+    @keyframes cta-inline {
+      0%, 100% { transform: translateY(0) scale(1); }
+      45% { transform: translateY(-4px) scale(1.02); }
+      70% { transform: translateY(-1px) scale(1.008); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hotspot img, .cta-follow a { animation: none; }
+      .cta-follow { transition: none; }
+    }
     @keyframes cta-move {
       0%, 100% { transform: translateY(0) scale(1); }
       40% { transform: translateY(-8px) scale(1.035); }
@@ -89,8 +101,25 @@
       })(window, document, "clarity", "script", "z7gju3luho");
   })();
   </script>
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1663572572099944');
+  fbq('track', 'PageView');
+  </script>
+  <!-- End Meta Pixel Code -->
 </head>
 <body>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1663572572099944&amp;ev=PageView&amp;noscript=1"
+    alt="" /></noscript>
   <main class="stage">
     <img class="lp" id="lp" src="assets/lp-full.jpg" width="1024" height="15253" alt="オーラ引き寄せ術 完全攻略セミナー" />
     <a class="hotspot line-link" id="hot0" href="#" style="top:8.3918%;left:10.0586%;width:79.6875%;height:1.0818%;">
@@ -113,10 +142,29 @@
   </div>
   <script>
     (function(){
-      var LINE_URL="";
+      // Placeholder: replace with the official LINE URL before running ads.
+      var LINE_URL="https://example.com/line-registration";
       document.querySelectorAll(".line-link").forEach(function(a){
-        if(LINE_URL){a.href=LINE_URL;a.target="_blank";}
+        if(LINE_URL){a.href=LINE_URL;a.target="_blank";a.rel="noopener noreferrer";}
         else{a.href="#";a.addEventListener("click",function(e){e.preventDefault();});}
+      });
+      // Measures CTA clicks as CompleteRegistration, not confirmed LINE friend additions.
+      document.querySelectorAll(".line-link").forEach(function(a){
+        var lastTrackedAt = -Infinity;
+        a.addEventListener("click", function(e){
+          if(e.defaultPrevented || !LINE_URL) return;
+          var now = Date.now();
+          if(now - lastTrackedAt < 1000) return;
+          lastTrackedAt = now;
+          if(typeof window.fbq === "function"){
+            window.fbq("track", "CompleteRegistration", {
+              content_name: "オーラ引き寄せ術完全攻略セミナー",
+              registration_method: "line_cta_click",
+              button_location: a.id || "sticky",
+              destination_is_placeholder: LINE_URL === "https://example.com/line-registration"
+            });
+          }
+        });
       });
       var hot0=document.getElementById("hot0");
       var hot2=document.getElementById("hot2");
