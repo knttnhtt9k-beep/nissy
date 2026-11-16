@@ -11,10 +11,21 @@
     .stage { position: relative; width: 100%; max-width: 1024px; margin: 0 auto; line-height: 0; }
     .lp { display: block; width: 100%; height: auto; }
     .cta-background {
-      position: absolute; left: 0; width: 100%; height: auto;
-      display: block; pointer-events: none;
-      -webkit-mask-image: linear-gradient(to bottom, transparent, black 4%, black 96%, transparent);
-      mask-image: linear-gradient(to bottom, transparent, black 4%, black 96%, transparent);
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: auto;
+      display: block;
+      pointer-events: none;
+      /* Preserve the original page artwork at the sides of each CTA. */
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 5%, black 9%, black 91%, transparent 95%),
+        linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
+      -webkit-mask-composite: source-in;
+      mask-image:
+        linear-gradient(to right, transparent 5%, black 9%, black 91%, transparent 95%),
+        linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
+      mask-composite: intersect;
     }
     .hotspot {
       position: absolute; z-index: 5;
